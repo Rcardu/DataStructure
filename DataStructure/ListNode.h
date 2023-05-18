@@ -1,7 +1,7 @@
-#ifdef LISTNODE_H
+#ifndef LISTNODE_H
 #define LISTNODE_H
 #include<iostream>
-#endif
+#include"UsListNodeSq.h"
 #define INIT_SIZE 100
 #define INCTEMENT 20
 using namespace std;
@@ -15,6 +15,7 @@ private:
     int length;//当前顺序表的长度
 public:
     ListNodeSq()=default;//默认构造函数
+    ListNodeSq(const ListNodeSq<T>&st);//拷贝构造函数
     bool Init_ListNodeSq();//初始化顺序表
     int GetSize();//获取顺序表的存储容量
     int Getlen();//获取顺序表的长度
@@ -29,6 +30,7 @@ public:
     bool remove(int idx,T&elem);//用于在顺序表的指定位置删除元素
     T operator[](int idx);// 重载下标运算符
     ~ListNodeSq();//重写顺序表的析构函数
+    friend class UsListNodeSq<T>;
 };
 /*初始化顺序表
 分配内存空间
@@ -178,6 +180,22 @@ ListNodeSq<T>::~ListNodeSq(){
     this->size=0;
     this->length=0;
 }
+template<typename T>
+ListNodeSq<T>::ListNodeSq(const ListNodeSq<T>&st){
+    size=st.size;
+    length=st.length;
+    elem=(T*)malloc(INIT_SIZE*sizeof(T));//分配内存空间
+    if(!this->elem){
+        cerr<<"Init Wrong!"<<endl;//分配失败
+    }
+    for(int i=0;i<st.length;i++){
+        elem[i]=st.elem[i];
+    }
+    for(int i=0;i<length;i++){
+        cout<<elem[i]<<" ";
+    }
+
+}
 /*用来实现非成员函数的定义
 打印函数*/
 template<typename T>
@@ -193,3 +211,4 @@ bool compare(T t1,T t2){
     }
     return false;
 }
+#endif
