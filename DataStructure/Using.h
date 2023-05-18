@@ -8,15 +8,18 @@ using namespace std;
 void UseListFormat();
 
 void UseListFormat(){
-    ListNodeSq<int>s;
-    s.Init_ListNodeSq();
-    int N;
-    cin>>N;
+    vector<ListNodeSq<int>>s(2);
+    s[0].Init_ListNodeSq();
+    s[1].Init_ListNodeSq();
+    int N,M;
+    cin>>N>>M;
     vector<int>slist(N);
+    vector<int>tlist(M);
     for(int i=0;i<N;i++)cin>>slist[i];
-    sort(slist.begin(),slist.end());
-    for(int i=0;i<slist.size();i++)s.insert(slist[i]);
+    for(int i=0;i<M;i++)cin>>tlist[i];
+    for(int i=0;i<slist.size();i++)s[0].insert(slist[i]);
+    for(int i=0;i<tlist.size();i++)s[1].insert(tlist[i]);
     UsListNodeSq<int>obj;
-    obj.Insert(s,6); 
-    s.traverse(print);
+    obj.CopyUnside(s[0],s[1]); 
+    s[0].traverse(print);
 }

@@ -24,6 +24,14 @@ public:
             L.insert(i+1,data);//调用ListNode的插入函数后长度已经加1了
         }
     }
+    /*已知两个线性表LA和LB，将LB中与LA中不重复的数据元素加入到LA中*/
+    void CopyUnside(ListNodeSq<T>&LA,ListNodeSq<T>LB){
+        for(int i=0;i<LB.length;i++){
+            //LA中不存在和LB中相同的元素，则将其插入到LA中
+            if(LA.Locate(LB.elem[i])==-1)
+                LA.insert(LB.elem[i]);
+        }
+    }
 };
 
 #endif
