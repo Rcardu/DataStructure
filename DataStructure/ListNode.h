@@ -28,6 +28,7 @@ public:
     bool insert(int idx,T elem);//用于在顺序表指定的位置添加元素
     bool remove(T&elem);//用于删除顺序表的最后一个元素
     bool remove(int idx,T&elem);//用于在顺序表的指定位置删除元素
+    int Locate(T data);//顺序表存在的前提下返回元素data的下标，否则返回-1;
     T operator[](int idx);// 重载下标运算符
     ~ListNodeSq();//重写顺序表的析构函数
     friend class UsListNodeSq<T>;
@@ -164,6 +165,15 @@ bool ListNodeSq<T>::remove(int idx,T&elem){
     this->length--;
     return true;
 }
+//顺序表存在的前提下返回元素data的下标，否则返回-1;
+template<typename T>
+int ListNodeSq<T>::Locate(T data){
+    if(this->length==0)return 0;//顺序表不存在
+    for(int i=0;i<this->length;i++){
+        if(data==this->elem[i])return i;//找到数据元素返回
+    }
+    return -1;//没找到返回-1
+}
 /*重载 [] 运算符*/
 template<typename T>
 T ListNodeSq<T>::operator[](int idx){
@@ -194,6 +204,7 @@ ListNodeSq<T>::ListNodeSq(const ListNodeSq<T>&st){
     for(int i=0;i<length;i++){
         cout<<elem[i]<<" ";
     }
+    cout<<endl;
 
 }
 /*用来实现非成员函数的定义
