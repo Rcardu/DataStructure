@@ -4,7 +4,7 @@
 #include"ListNode.h"
 
 using namespace std;
-template<typename T>class ListNodeSq;
+template<typename T>class ListNodeSq;  
 template<typename T>
 class UsListNodeSq
 {
