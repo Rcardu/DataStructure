@@ -1,10 +1,12 @@
 #include<iostream>
-#include"DataStructure//Using.h"
+#include"ListSQ//Using.h"
+#include"ListLink//UsingLink.h"
 
 
 int main(){
     using namespace std;
-    UseListFormat();
+    //UseListFormat();
+    UsListLinkFormat();
 
 
     while(getchar()!='\n')
