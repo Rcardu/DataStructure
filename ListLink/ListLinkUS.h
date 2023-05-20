@@ -3,6 +3,7 @@
 #include<iostream>
 #include"ListLink.h"
 #include<unordered_set>
+#include<vector>
 template<typename T>class ListLink;
 template<typename T>class ListStruct;
 template<typename T>
@@ -11,48 +12,57 @@ class ListLinkUS
 private:
 public:
     /*将两个按升序排列的单链表LA和LB合并成一个新的单链表LC*/
-    void LinkList_Unionlist(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC){
-        ListStruct<T>*pa,*pb,*pc;
-        pa=LA.head;
-        pb=LB.head;
-        if(pa->data>pb->data){
-            LC.head->data=pb->data;
-            pb=pb->next;
-        }else{
-            LC.head->data=pa->data;
+    void LinkList_Unionlist(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC);
+    /*假设链表LA与链表LB各代表一个集合，求集合中不相同的元素即，LA-LB*/
+    void LAandLBfost(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC);
+    /*求两个链表内的元素的交集*/
+    void LAinterLB(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC);
+};
+/*将两个按升序排列的单链表LA和LB合并成一个新的单链表LC*/
+template<typename T>
+void ListLinkUS<T>::LinkList_Unionlist(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC){
+    ListStruct<T>*pa,*pb,*pc;
+    pa=LA.head;
+    pb=LB.head;
+    if(pa->data>pb->data){
+        LC.head->data=pb->data;
+        pb=pb->next;
+    }else{
+        LC.head->data=pa->data;
+        pa=pa->next;
+    }
+    pc=LC.head;
+    
+    while((pa!=NULL)&&(pb!=NULL)){
+        if(pa->data<=pb->data){
+            pc->next=new ListStruct<T>;
+            pc->next->data=pa->data;
+            pc=pc->next;
             pa=pa->next;
-        }
-        pc=LC.head;
-        
-        while((pa!=NULL)&&(pb!=NULL)){
-            if(pa->data<=pb->data){
-                pc->next=new ListStruct<T>;
-                pc->next->data=pa->data;
-                pc=pc->next;
-                pa=pa->next;
-            }else{
-                pc->next=new ListStruct<T>;
-                pc->next->data=pb->data;
-                pc=pc->next;
-                pb=pb->next;
-            }
-        }
-        while(pa==NULL&&pb!=NULL){
+        }else{
             pc->next=new ListStruct<T>;
             pc->next->data=pb->data;
             pc=pc->next;
             pb=pb->next;
         }
-        while(pa!=NULL&&pb==NULL){
-            pc->next=new ListStruct<T>;
-            pc->next->data=pa->data;
-            pc=pc->next;
-            pa=pa->next;
-        }
-        pc->next=NULL;
     }
-    /*假设链表LA与链表LB各代表一个集合，求集合中不相同的元素即，LA-LB*/
-    void LAandLBfost(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC){
+    while(pa==NULL&&pb!=NULL){
+        pc->next=new ListStruct<T>;
+        pc->next->data=pb->data;
+        pc=pc->next;
+        pb=pb->next;
+    }
+    while(pa!=NULL&&pb==NULL){
+        pc->next=new ListStruct<T>;
+        pc->next->data=pa->data;
+        pc=pc->next;
+        pa=pa->next;
+    }
+    pc->next=NULL;
+}
+/*假设链表LA与链表LB各代表一个集合，求集合中不相同的元素即，LA-LB*/
+template<typename T>
+void ListLinkUS<T>::LAandLBfost(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC){
         ListStruct<T>*pa,*pb,*pc,*tp;
         pa=LA.head;
         pc=LC.head;
@@ -89,9 +99,30 @@ public:
         tp=NULL;
         pc=NULL;
     }
-};
-
-
-
+template<typename T>
+void ListLinkUS<T>::LAinterLB(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC){
+    ListStruct<T>*pa,*pb,*pc,*tp;
+    pa=LA.head;
+    pc=LC.head;
+    vector<int>used;
+    while(pa){
+        pb=LB.head;
+        while(pb){
+            if(pa->data==pb->data)used.push_back(pa->data);
+            pb=pb->next;
+        }
+        pa=pa->next;
+    }
+    for(int i=0;i<used.size();i++){
+        pc->data=used[i];
+        pc->next=new ListStruct<T>;
+        tp=pc;
+        pc=pc->next;
+    }
+    delete tp->next;
+    tp->next=NULL;
+    tp=NULL;
+    pc=NULL;
+}
 
 #endif
