@@ -2,10 +2,12 @@
 #define LISTNODE_H
 #include<iostream>
 #include"UsListNodeSq.h"
+#include<string>
 #define INIT_SIZE 100
 #define INCTEMENT 20
 using namespace std;
 
+template<typename T>class UsListNodeSq;
 template<typename T>
 class ListNodeSq{
 private:
@@ -14,7 +16,7 @@ private:
     int size;//当前顺序表的容量
     int length;//当前顺序表的长度
 public:
-    ListNodeSq()=default;//默认构造函数
+    ListNodeSq(){Init_ListNodeSq();}//默认构造函数
     ListNodeSq(const ListNodeSq<T>&st);//拷贝构造函数
     bool Init_ListNodeSq();//初始化顺序表
     int GetSize();//获取顺序表的存储容量
@@ -24,6 +26,8 @@ public:
     bool index(int idx,T&elem);//用于获取相应元素下标
     int index(T elem,bool(*compare)(T,T));//用于获取第一个相似元素的位置
     void traverse(void(*print)(T&elem));//用于打印顺序表中的元素
+    void traverse(int idx);//打印指定表单
+    void traverse();//用于打印顺序表中的元素
     bool insert(T elem);//用于在顺序表的最后添加元素
     bool insert(int idx,T elem);//用于在顺序表指定的位置添加元素
     bool remove(T&elem);//用于删除顺序表的最后一个元素
@@ -31,6 +35,12 @@ public:
     int Locate(T data);//顺序表存在的前提下返回元素data的下标，否则返回-1;
     T operator[](int idx);// 重载下标运算符
     ~ListNodeSq();//重写顺序表的析构函数
+    void LengthSet(int n){length+=n;};
+    //返回当前数据指针
+    T* GetDatas(){return this->elem;};
+
+    
+
     friend class UsListNodeSq<T>;
 };
 /*初始化顺序表
@@ -100,6 +110,21 @@ void ListNodeSq<T>::traverse(void(*print)(T&elem)){
     for(int i=0;i!=this->length;i++){
         print((this->elem)[i]);
     }
+    cout<<endl;
+}
+/*打印当前顺序表*/
+template<typename T>
+void ListNodeSq<T>::traverse(){
+    for(int i=0;i!=this->length;i++){
+        elem[i].printst();
+        cout<<endl;
+    }
+    cout<<endl;
+}
+/*打印指定顺序表*/
+template<typename T>
+void ListNodeSq<T>::traverse(int idx){
+    elem[idx].printst();
     cout<<endl;
 }
 /*在顺序表的后面插入元素*/
@@ -205,7 +230,6 @@ ListNodeSq<T>::ListNodeSq(const ListNodeSq<T>&st){
         cout<<elem[i]<<" ";
     }
     cout<<endl;
-
 }
 /*用来实现非成员函数的定义
 打印函数*/
@@ -222,4 +246,6 @@ bool compare(T t1,T t2){
     }
     return false;
 }
+
+
 #endif
