@@ -6,9 +6,9 @@
 
 int main(){
     using namespace std;
-    //UseListFormat();
+    UseListFormat();
     //UsListLinkFormat();
-    UsDoubleFormat();
+    //UsDoubleFormat();
 
     while(getchar()!='\n')
     continue;
