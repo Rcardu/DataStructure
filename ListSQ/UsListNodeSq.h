@@ -9,8 +9,9 @@ template<typename T>
 class UsListNodeSq
 {
 private:
-
+    
 public:
+    
     /*在一个已知升序的顺序表中插入元素data*/
     void Insert(ListNodeSq<T>&L,int data){
         /*如果在使用完函数后继续使用此对象，就使用引用类型的移动构造
@@ -32,6 +33,7 @@ public:
                 LA.insert(LB.elem[i]);
         }
     }
+    friend class ListNodeSq<T>;
 };
 
 #endif
