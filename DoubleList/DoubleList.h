@@ -95,6 +95,10 @@ public:
     bool HeadECurIf(void);
     //打印当前链表
     void PrintList(void);
+    //获取第m个结点
+    void GetNode(int m);
+    //复位函数，currPtr复位
+    void ResetsPtr(){currPtr=header->NextNode();};
 };
 /*创建一个新表头*/
 template<typename T>
@@ -179,7 +183,7 @@ void DoubleList<T>::InsertAt(const T&item){
 template<typename T>
 void DoubleList<T>::InsertAfter(const T&item){
     DoubleNode<T>*newNode=new DoubleNode<T>(item);
-    currPtr->InsertPred(newNode);
+    currPtr->InsetrPred(newNode);
     size++;
 }
 /*删除表，从前往后删*/
@@ -247,5 +251,19 @@ void DoubleList<T>::PrintList(void){
         cout<<pre->data<<" ";
         pre=pre->NextNode();
     }
+}
+/*获取第m个结点，跳过头结点*/
+template<typename T>
+void DoubleList<T>::GetNode(int k){
+    for(int i=1;i<k;i++){
+        if(currPtr==header)//遇到头结点就退一步
+        i=i-1;
+        currPtr=currPtr->NextNode();
+        if(size==1){
+            currPtr=header->NextNode();
+            break;
+        }
+    }
+    if(currPtr==header)currPtr=header->NextNode();//在遍历完时遇到头结点，就设置为下一个结点
 }
 #endif
