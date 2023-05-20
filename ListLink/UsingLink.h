@@ -17,7 +17,9 @@ void UsListLinkFormat(){
     LB.PrintList();
     ListLinkUS<int>obj;
     //obj.LinkList_Unionlist(LA,LB,LC);
-    obj.LAandLBfost(LA,LB,LC);
+    //obj.LAandLBfost(LA,LB,LC);
+    //LC.PrintList();
+    obj.LAinterLB(LA,LB,LC);
     LC.PrintList();
 }
 
