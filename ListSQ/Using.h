@@ -3,23 +3,25 @@
 #include<algorithm>
 #include<vector>
 #include"UsListNodeSq.h"
+#include"ListSqStudent.h"
 
 using namespace std;
 void UseListFormat();
 
 void UseListFormat(){
-    vector<ListNodeSq<int>>s(2);
-    s[0].Init_ListNodeSq();
-    s[1].Init_ListNodeSq();
-    int N,M;
-    cin>>N>>M;
-    vector<int>slist(N);
-    vector<int>tlist(M);
-    for(int i=0;i<N;i++)cin>>slist[i];
-    for(int i=0;i<M;i++)cin>>tlist[i];
-    for(int i=0;i<slist.size();i++)s[0].insert(slist[i]);
-    for(int i=0;i<tlist.size();i++)s[1].insert(tlist[i]);
-    UsListNodeSq<int>obj;
-    obj.CopyUnside(s[0],s[1]); 
-    s[0].traverse(print);
+    StudentList<Student<int>>s;
+    int n;
+    cin>>n;
+    cout<<"正在创建信息表,请输入学生信息："<<endl;
+    s.creatStudent(s,n);
+    cout<<"学生信息表如下:"<<endl;
+    s.traverse();
+    cout<<"请输入要查询的学生学号: "<<endl;
+    s.searchNo(s,s.Getlen());
+    cout<<"请输入要按照那样成绩排序："<<endl;
+    int p,m;
+    cin>>n>>m;
+    s.sortTosour(s,n,m);
+    cout<<"学生信息排序如下："<<endl;
+    s.traverse();
 }
