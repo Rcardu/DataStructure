@@ -6,8 +6,8 @@
 
 int main(){
     using namespace std;
-    UseListFormat();
-    //UsListLinkFormat();
+    //UseListFormat();
+    UsListLinkFormat();
     //UsDoubleFormat();
 
     while(getchar()!='\n')
