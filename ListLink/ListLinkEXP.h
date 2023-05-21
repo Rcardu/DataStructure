@@ -36,6 +36,8 @@ public:
     void SetCoef(const float&coefs){this->coef=coefs;};
     //修改指数
     void SetExp(const int&exps){this->exp=exps;};
+    //修改结点指针为空
+    void SetNext(){next=NULL;};
 };
 template<typename T>
 class ListLinkExp:public ListLink<T>{
@@ -62,6 +64,7 @@ public:
     void DeleteFront(void);
     void DeleteRear(void);
     void DeleteIndex(int idx);
+    void DeleteThis(void);
 
     //调整curPtr指针位置
     void ResetcurPtr();
@@ -71,17 +74,25 @@ public:
     void PrintList();
     //清空链表数据
     void ClearList();
+    //排序，合并相同的指数
+    void SortListExp();
+    //交换当前结点和指定结点
+    void SwipNode(ListStructExp<T>*p);
+    //合并结点
+    void ComNode(ListStructExp<T>*p);
 
 };
 //构造函数
 template<typename T>
 ListLinkExp<T>::ListLinkExp(void):length(0){
     curPtr=head=new ListStructExp<T>();
+    head->NextNode()->SetNext();
 }
 //拷贝构造函数
 template<typename T>
 ListLinkExp<T>::ListLinkExp(const ListLinkExp<T>&L):length(0){
     curPtr=head=new ListStructExp<T>();
+    head->NextNode()->SetNext();
     CopyList(L);
 }
 //析构函数
@@ -182,6 +193,18 @@ void ListLinkExp<T>::DeleteIndex(int idx){
     curPtr=p;
     length--;
 }
+//删除，删除当前位置结点
+template<typename T>
+void ListLinkExp<T>::DeleteThis(){
+    if(curPtr==head)return;//头结点不可删除
+    if(curPtr==NULL)return;//这是一个空结点
+    if(ListEmpty())return;//表为空返回
+    ListStructExp<T>*p=curPtr->NextNode();
+    ResetcurPtr();//指向要删除结点的上一个结点
+    delete(curPtr->DeleteNode());
+    curPtr=p;
+    length--;
+}
 //将表L拷贝到当前表尾
 template<typename T>
 void ListLinkExp<T>::CopyList(const ListLinkExp<T>&L){
@@ -210,6 +233,46 @@ void ListLinkExp<T>::ClearList(){
         DeleteFront();
     }
 }
-
+//排序，合并相同的指数(当前链表)
+template<typename T>
+void ListLinkExp<T>::SortListExp(){
+    curPtr=head->NextNode();
+    while(curPtr->NextNode()!=NULL){
+        ListStructExp<T>*p=curPtr->NextNode();
+        while(p!=NULL){
+            if(curPtr->ReExp()>p->ReExp()){
+                SwipNode(p);
+            }else if(curPtr->ReExp()==p->ReExp()){
+                ComNode(p);
+                p=curPtr;
+            }
+            p=p->NextNode();
+        }
+        curPtr=curPtr->NextNode();
+    }
+}
+//交换当前结点和指定结点
+template<typename T>
+void ListLinkExp<T>::SwipNode(ListStructExp<T>*p){
+    float tempcoefs=p->ReCoef();
+    int tempexps=p->ReExp();
+    p->SetCoef(curPtr->ReCoef());
+    p->SetExp(curPtr->ReExp());
+    curPtr->SetCoef(tempcoefs);
+    curPtr->SetExp(tempexps);
+}
+//合并结点
+template<typename T>
+void ListLinkExp<T>::ComNode(ListStructExp<T>*p){
+    if(curPtr==NULL||p==NULL)return;//有一个是空节点无法合并
+    if(curPtr==head||p==head)return;//有一个指向了头结点，无法合并
+    if(length<2)return;//结点数小于2，无法合并
+    curPtr->SetCoef((p->ReCoef()+curPtr->ReCoef()));//将两个系数相加即可
+    ListStructExp<T>*tmp=curPtr;//保存此结点
+    curPtr=p;//要删除的是结点p
+    p=tmp;//让结点p指向已合并的节点
+    DeleteThis();//删除curPtr指向的结点
+    curPtr=tmp;//让cur指向已合并的结点 
+}
 
 #endif
