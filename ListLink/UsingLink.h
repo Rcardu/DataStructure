@@ -4,8 +4,10 @@
 #include<vector>
 #include"ListLink.h"
 #include"ListLinkUS.h"
+#include"ListLinkEXP.h"
 using namespace std;
 void UsListLinkFormat();
+void UsListLinkExpFotmat();
 
 void UsListLinkFormat(){
     ListLink<int>LA,LB,LC;
@@ -22,7 +24,24 @@ void UsListLinkFormat(){
     obj.LAinterLB(LA,LB,LC);
     LC.PrintList();
 }
-
-
+void UsListLinkExpFotmat(){
+    ListLinkExp<int>L;
+    int N;
+    cin>>N;
+    vector<float>Coefs(N);
+    vector<int>Exps(N);
+    for(int i=0;i<N;i++)cin>>Coefs[i];
+    for(int i=0;i<N;i++)cin>>Exps[i];
+    for(int i=0;i<N;i++)L.InsertAfter(Coefs[i],Exps[i]);
+    L.InsertIndex(2.1,2,2);
+    L.PrintList();
+    L.DeleteIndex(1);
+    L.PrintList();
+    L.InsertFront(1.1,0);
+    L.PrintList();
+    L.DeleteFront();
+    L.DeleteRear();
+    
+}
 
 #endif
