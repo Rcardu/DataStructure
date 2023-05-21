@@ -33,14 +33,8 @@ void UsListLinkExpFotmat(){
     for(int i=0;i<N;i++)cin>>Coefs[i];
     for(int i=0;i<N;i++)cin>>Exps[i];
     for(int i=0;i<N;i++)L.InsertAfter(Coefs[i],Exps[i]);
-    L.InsertIndex(2.1,2,2);
+    L.SortListExp();
     L.PrintList();
-    L.DeleteIndex(1);
-    L.PrintList();
-    L.InsertFront(1.1,0);
-    L.PrintList();
-    L.DeleteFront();
-    L.DeleteRear();
     
 }
 
