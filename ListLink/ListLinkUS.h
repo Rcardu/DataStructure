@@ -4,6 +4,7 @@
 #include"ListLink.h"
 #include<unordered_set>
 #include<vector>
+#include"ListLinkEXP.h"
 template<typename T>class ListLink;
 template<typename T>class ListStruct;
 template<typename T>
@@ -17,6 +18,8 @@ public:
     void LAandLBfost(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC);
     /*求两个链表内的元素的交集*/
     void LAinterLB(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC);
+    /*将两个多项式合并*/
+    void DAandDBcom(ListLinkExp<T>&DA,ListLinkExp<T>&DB,ListLinkExp<T>&DC);
 };
 /*将两个按升序排列的单链表LA和LB合并成一个新的单链表LC*/
 template<typename T>
@@ -123,6 +126,37 @@ void ListLinkUS<T>::LAinterLB(ListLink<T>&LA,ListLink<T>&LB,ListLink<T>&LC){
     tp->next=NULL;
     tp=NULL;
     pc=NULL;
+}
+template<typename T>
+void ListLinkUS<T>::DAandDBcom(ListLinkExp<T>&DA,ListLinkExp<T>&DB,ListLinkExp<T>&DC){
+    DA.SortALL();
+    DB.SortALL();
+    ListStructExp<T>*pa,*pb;
+    pa=DA.ReNodehead();
+    pb=DB.ReNodehead();
+    pb=pb->NextNode();
+    pa=pa->NextNode();
+    while(pa!=NULL&&pb!=NULL){//都不为空，开始插入
+        if(pa->ReExp()==pb->ReExp()){//指数相同就合并
+            DC.InsertAfter((pa->ReCoef()+pb->ReCoef()),pa->ReExp());
+            pa=pa->NextNode();
+            pb=pb->NextNode();
+        }else if(pa->ReExp()>pb->ReExp()){//谁的指数小，先插谁
+            DC.InsertAfter(pb->ReCoef(),pb->ReExp());
+            pb=pb->NextNode();
+        }else{
+            DC.InsertAfter(pa->ReCoef(),pa->ReExp());
+            pa=pa->NextNode();
+        }
+    }
+    while(pa==NULL&&pb!=NULL){//若pb有剩余
+        DC.InsertAfter(pb->ReCoef(),pb->ReExp());
+        pb=pb->NextNode();
+    }
+    while(pa!=NULL&&pb==NULL){//若pa有剩余
+        DC.InsertAfter(pa->ReCoef(),pa->ReExp());
+        pa=pa->NextNode();
+    }
 }
 
 #endif
