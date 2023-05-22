@@ -2,6 +2,7 @@
 #include"ListStruct//ListSQ//Using.h"
 #include"ListStruct//ListLink//UsingLink.h"
 #include"ListStruct//DoubleList//UsDouble.h"
+#include"StackAndQueue//StackStruct//UsingStack.h"
 
 
 int main(){
@@ -9,7 +10,15 @@ int main(){
     //UseListFormat();
     //UsListLinkFormat();
     //UsDoubleFormat();
-    UsListLinkExpFotmat();
+    //UsListLinkExpFotmat();
+    //UsStack();
+    //UsStackDS();
+    //UsStackList();
+    UsStackListstr();
+    
+
+
+
 
     while(getchar()!='\n')
     continue;
