@@ -1,7 +1,7 @@
 #include<iostream>
-#include"ListSQ//Using.h"
-#include"ListLink//UsingLink.h"
-#include"DoubleList//UsDouble.h"
+#include"ListStruct//ListSQ//Using.h"
+#include"ListStruct//ListLink//UsingLink.h"
+#include"ListStruct//DoubleList//UsDouble.h"
 
 
 int main(){
