@@ -25,16 +25,22 @@ void UsListLinkFormat(){
     LC.PrintList();
 }
 void UsListLinkExpFotmat(){
-    ListLinkExp<int>L;
-    int N;
-    cin>>N;
-    vector<float>Coefs(N);
-    vector<int>Exps(N);
-    for(int i=0;i<N;i++)cin>>Coefs[i];
-    for(int i=0;i<N;i++)cin>>Exps[i];
-    for(int i=0;i<N;i++)L.InsertAfter(Coefs[i],Exps[i]);
-    L.SortListExp();
-    L.PrintList();
+    ListLinkExp<int>DA,DB,DC;
+    int N,M;
+    cin>>N>>M;
+    vector<float>Coefa(N);
+    vector<int>Expa(N);
+    for(int i=0;i<N;i++)cin>>Coefa[i];
+    for(int i=0;i<N;i++)cin>>Expa[i];
+    for(int i=0;i<N;i++)DB.InsertAfter(Coefa[i],Expa[i]);
+    vector<float>Coefb(M);
+    vector<int>Expb(M);
+    for(int i=0;i<M;i++)cin>>Coefb[i];
+    for(int i=0;i<M;i++)cin>>Expb[i];
+    for(int i=0;i<M;i++)DA.InsertAfter(Coefb[i],Expb[i]);
+    ListLinkUS<int>obj;
+    obj.DAandDBcom(DA,DB,DC);
+    DC.PrintList();
     
 }
 
