@@ -4,6 +4,7 @@
 #include"ListLink.h"
 using namespace std;
 template<typename T>class ListLink;
+template<typename T>class ListLinkUS;
 template<typename T>
 class ListStructExp{
 private:
@@ -80,6 +81,10 @@ public:
     void SwipNode(ListStructExp<T>*p);
     //合并结点
     void ComNode(ListStructExp<T>*p);
+    //返回头结点
+    ListStructExp<T>*ReNodehead(){return this->head;};
+    
+    friend class ListLinkUS<T>;
 
 };
 //构造函数
