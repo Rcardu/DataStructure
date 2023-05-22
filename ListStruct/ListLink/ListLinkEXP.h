@@ -39,6 +39,8 @@ public:
     void SetExp(const int&exps){this->exp=exps;};
     //修改结点指针为空
     void SetNext(){next=NULL;};
+    //返回当前结点
+    ListStructExp<T>*GetNext(){return this->next;};
 };
 template<typename T>
 class ListLinkExp:public ListLink<T>{
