@@ -3,6 +3,7 @@
 #include"ListStruct//ListLink//UsingLink.h"
 #include"ListStruct//DoubleList//UsDouble.h"
 #include"StackAndQueue//StackStruct//UsingStack.h"
+#include"StackAndQueue//QueueStruct//UsingQueue.h"
 
 
 int main(){
@@ -14,7 +15,9 @@ int main(){
     //UsStack();
     //UsStackDS();
     //UsStackList();
-    UsStackListstr();
+    //UsStackListstr();
+    //usQueueStrcutFormat();
+    UsQueueDoubleFormat();
     
 
 
