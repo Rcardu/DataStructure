@@ -17,7 +17,10 @@
             "compilerPath": "D:/software/VsCode/mingw64/bin/gcc.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-gcc-x64"
+            "intelliSenseMode": "windows-gcc-x64",
+            "compilerArgs": [
+                "-fexec-charset=GBK"
+            ]
         }
     ],
     "version": 4
