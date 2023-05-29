@@ -5,6 +5,7 @@
 #include"StackAndQueue//StackStruct//UsingStack.h"
 #include"StackAndQueue//QueueStruct//UsingQueue.h"
 #include"Graph//UsingGraph.h"
+#include"Heap//Usheap.h"
 
 int main(){
     using namespace std;
@@ -19,7 +20,10 @@ int main(){
     //usQueueStrcutFormat();
     //UsQueueDoubleFormat();
     //UsMatrixFormat();
-    UsGraphAdjacencyListFormat();
+    //UsGraphAdjacencyListFormat();
+    //Useings();
+    UsCreat();
+    
     
 
 
