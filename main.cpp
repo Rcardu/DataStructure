@@ -6,6 +6,7 @@
 #include"StackAndQueue//QueueStruct//UsingQueue.h"
 #include"Graph//UsingGraph.h"
 #include"Heap//Usheap.h"
+#include"Hash/hashMap.h"
 
 int main(){
     using namespace std;
@@ -22,7 +23,9 @@ int main(){
     //UsMatrixFormat();
     //UsGraphAdjacencyListFormat();
     //Useings();
-    UsCreat();
+    //UsCreat();
+    //usHash();
+    hashMapUs();
     
     
 
