@@ -72,5 +72,6 @@
         "typeinfo": "cpp",
         "valarray": "cpp",
         "queue": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "D:/Project/project/DataStructure/utils"
 }
