@@ -11,11 +11,12 @@ public:
     T data;
     vector<SkipListNode*>next;
 //包含构造方法，以确定初始值
-    SkipListNode(int k,T val,int level):key(k),data(val){
-        for(int i=0;i<level;i++){
+    SkipListNode(int key,T data,int maxLevel):key(key),data(data){
+        for(int i=0;i<maxLevel;i++){
             next.push_back(nullptr);
         }
     }
+
 };
 template <typename T>
 class SkipList{
@@ -25,6 +26,8 @@ public:
     //整型的最大值和最小值
     const int minInt=numeric_limits<int>::min();
     const int maxInt=numeric_limits<int>::max();
+    
+    
 public:
     //构造函数
     SkipList(int maxLevel,T iniValue);
