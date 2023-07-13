@@ -67,7 +67,8 @@ SkipList<T>::~SkipList(){
     delete head;
     delete tail;
 }
-/*随机层数方法，使用time作为种子来获取0~1之间的随机值，直到level为0或者超过最大层数*/
+/*随机层数方法，使用time作为种子来获取0~1之间的随机值，
+直到level为0或者超过最大层数*/
 template<typename T>
 int SkipList<T>::randomLevel(){
     int random_level=1;
@@ -111,7 +112,8 @@ SkipListNode<T>* SkipList<T>::insert(int k,T val){
     return head;
 }
 /*查找
-由于列表有序，首先找到小于该节点附近的结点，如果下一个结点等于目标结点，则返回该节点*/
+由于列表有序，首先找到小于该节点附近的结点，如果下一个结点等于目标结点，
+则返回该节点*/
 template<typename T>
 SkipListNode<T>* SkipList<T>::find(int k){
     //找到当前结点最大层数，从最大层数开始向下查找
