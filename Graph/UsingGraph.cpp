@@ -10,6 +10,8 @@
 #include "WeightedGraph/UnDriectedWeightedGraph.h"
 #include "WeightedGraph/DirectedWeightedGraphMatrix.h"
 #include "WeightedGraph/DriectedWeighitedGraph.h"
+#include "WeightedGraph/DriectedWeightedGraphPath.h"
+using namespace std;
 void UnDriectedUnWeightGraphForamt();//无向无权图邻接表
 void UnDriectedUnWeightedGraphMatrixFormat();//无向无权图的邻接矩阵
 void DriectedUnWeightedGraphFormat();//有向无权图
@@ -115,12 +117,11 @@ void DricetedUnWeightedGraphMatrixformat(){
 //无向有权图
 void UnDriectedWeightedGraphFormat(){
     vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{1,1},{2,5},{3,2},{4,1},{5,3}});
-    vector<vector<VertexPoint*>>edgesl={{v[0],v[1]},{v[0],v[3]},{v[0],v[4]},{v[1],v[2]},{v[2],v[3]},{v[2],v[4]},{v[3],v[4]}};
+    vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={{{v[0],v[1]},2},{{v[0],v[3]},1},
+                                                    {{v[1],v[3]},3},{{v[1],v[4]},10},
+                                                    {{v[2],v[0]},4},{{v[2],v[5]},5},
+                                                    {{v[3],v[2]},2}};
     UnDriectedWeightedGraph<int>graph(edgesl);
-    graph.print();
-    graph.addEdge(v[4],v[1]);
-    cout<<endl;
-    cout<<"添加边5-2，后图为：";
     graph.print();
     for(auto vec:graph.UnDriectedWeightedGraphBFSIn(graph,v[0])){
         cout<<"("<<vec[0]<<" , "<<vec[1]<<")";
@@ -135,29 +136,37 @@ void UnDriectedWeightedGraphFormat(){
 }
 //有向有权图
 void DriectedweightedGraphFormat(){
-    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{1,1},{2,5},{3,2},{4,1},{5,3}});
-    vector<vector<VertexPoint*>>edgesl={{v[0],v[1]},{v[0],v[3]},{v[0],v[4]},{v[1],v[2]},{v[2],v[3]},{v[2],v[4]},{v[3],v[4]}};
+    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7}});
+    vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={
+                                                    {{v[0],v[1]},2},{{v[0],v[3]},1},
+                                                    {{v[1],v[3]},3},{{v[1],v[4]},10},
+                                                    {{v[2],v[0]},4},{{v[2],v[5]},5},
+                                                    {{v[3],v[2]},2},{{v[3],v[4]},2},{{v[3],v[5]},8},{{v[3],v[6]},4},
+                                                    {{v[4],v[6]},1},
+                                                    {{v[6],v[5]},1}};
     DriectedWeightedGraph<int>graph(edgesl);
     graph.prints();
-    graph.addEdges(v[4],v[1]);
-    cout<<endl;
-    cout<<"添加边5-2，后图为：";
-    graph.prints();
     for(auto vec:graph.GraphBFSIn(graph,v[0])){
-        cout<<"("<<vec[0]<<" , "<<vec[1]<<")";
-        cout<<" ---> ";
+        cout<<"("<<vec[0]<<" , "<<vec[1]<<")  ";
     }
     cout<<endl;
     cout<<"深度优先遍历："<<endl;
     for(auto vec:graph.GraphDFSIn(graph,v[0])){
-        cout<<"("<<vec[0]<<" , "<<vec[1]<<")";
-        cout<<" ---> ";
+        cout<<"("<<vec[0]<<" , "<<vec[1]<<")  ";
     }
+    DriectedWeightedGraphPath<int>gradh(v);
+    gradh.Iterations(graph,v[2]);
+    gradh.print();
 }
 //有向有权图的邻接矩阵
 void DriectedWeightedGraphMatForamt(){
-    vector<int>Adj={7,2,9,1,5};
-    vector<vector<int>>Mat={{0,1,1},{0,3,1},{1,2,1},{2,3,1},{2,4,1},{3,4,1},{4,2,1},{3,0,1}};
+    vector<int>Adj={1,2,3,4,5,6,7};
+    vector<vector<int>>Mat={{0,1,2},{0,3,1},
+                            {1,3,3},{1,4,10},
+                            {2,0,4},{2,5,5},
+                            {3,2,2},{3,4,2},{3,5,8},{3,6,4},
+                            {4,6,1},
+                            {6,5,1}};
     DriectedWeightedGraphMatrix<int>Graph(Adj,Mat);
     cout<<"构造后的邻接矩阵 : "<<endl;
     Graph.print();
@@ -178,8 +187,8 @@ int main(){
     //DriectedUnWeightedGraphFormat();
     //DricetedUnWeightedGraphMatrixformat();
     //UnDriectedWeightedGraphFormat();
-    //DriectedweightedGraphFormat();
-    DriectedWeightedGraphMatForamt();
+    DriectedweightedGraphFormat();
+    //DriectedWeightedGraphMatForamt();
 
     while(getchar()!='\n')
     continue;
