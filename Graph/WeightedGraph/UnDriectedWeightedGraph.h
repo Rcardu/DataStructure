@@ -9,7 +9,7 @@ class UnDriectedWeightedGraph
 private:
 public:
     //邻接表，key：顶点，value：该顶点的所有邻接点
-    unordered_map<VertexPoint*,vector<VertexPoint*>>adjList;
+    unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>adjList;
     /*在vector中删除指定结点*/
     void remove(vector<VertexPoint*>&vec,VertexPoint*vet){
         for(int i=0;i<vec.size();i++){//遍历邻接点数组
@@ -20,20 +20,21 @@ public:
         }
     }
     /*构造方法*/
-    UnDriectedWeightedGraph(const vector<vector<VertexPoint*>>&edges){
+    UnDriectedWeightedGraph(const vector<pair<pair<VertexPoint*,VertexPoint*>,int>>&edges){
         for(const auto&edge:edges){
-            addVertex(edge[0]);
-            addVertex(edge[1]);
-            addEdge(edge[0],edge[1]);
+            addVertex(edge.first.first);
+            addVertex(edge.first.second);
+            pair<VertexPoint*,int>vecs(edge.first.second,edge.second);
+            addEdge(edge.first.first,vecs);
         }
     }
     /*添加边*/
-    void addEdge(VertexPoint*v1,VertexPoint*v2){
-        if(!adjList.count(v1)||!adjList.count(v2)||v1==v2)
+    void addEdge(VertexPoint*v1,pair<VertexPoint*,int>vecs){
+        if(!adjList.count(v1)||!adjList.count(vecs.first)||v1==vecs.first)
             throw out_of_range("不存在此结点");
         //添加边vet1，vet2
-        adjList[v1].push_back(v2);
-        adjList[v2].push_back(v1);
+        adjList[v1].push_back(vecs);
+        adjList[vecs.first].push_back(<v1,vecs.second>);
     }
     //删除边
     void removeEdge(VertexPoint*v1,VertexPoint*v2){
@@ -45,7 +46,7 @@ public:
     /*添加顶点*/
     void addVertex(VertexPoint*vet){
         if(adjList.count(vet))return;
-        adjList[vet]=vector<VertexPoint*>();
+        adjList[vet]=vector<pair<VertexPoint*,int>>();
     }
     /*删除顶点*/
     void removeVertex(VertexPoint*vet){
@@ -53,7 +54,7 @@ public:
             throw out_of_range("不存在此顶点");
         adjList.erase(vet);
         for(auto&adj:adjList){
-            remove(adj.second,vet);
+            remove(adj.first,vet);
         }
     }
     /*打印邻接表*/
@@ -81,8 +82,8 @@ private:
             for(auto adjVet:graph.adjList[vet]){//遍历adjList[vet]顶点的每个数组元素
                 if(visited.count(adjVet))//如果已经遍历过，就跳过此顶点
                 continue;
-                que.push(adjVet);//将此顶点入队
-                visited.emplace(adjVet);//记录此顶点
+                que.push(adjVet.first);//将此顶点入队
+                visited.emplace(adjVet.first);//记录此顶点
             }
         }
         //返回顶点序列
@@ -94,9 +95,9 @@ private:
         visited.emplace(vet);//标记已访问
         //遍历该顶点的所有邻接顶点
         for(auto adjMat:graph.adjList[vet]){
-            if(visited.count(adjMat))
+            if(visited.count(adjMat.first))
             continue;//跳过已被访问的顶点
-            UnDriectedWeightedGraphDFS(graph,visited,res,adjMat);
+            UnDriectedWeightedGraphDFS(graph,visited,res,adjMat.first);
         }
     }
 public:
