@@ -4,8 +4,11 @@
 #include "GraphAdjacency//GraphAdjacencyMatrix.h"
 #include "GraphAdjacencyList//GraphAdjacencyList.h"
 #include "GraphAdjacencyList//GraphAdjacencyListpoint.h"
+#include "DirectedUnweightedGraph\DriectedUnweighitedGraph.h"
+#include "DirectedUnweightedGraph\VertexPiont.h"
 void UsMatrixFormat();
 void UsGraphAdjacencyListFormat();
+void UsDriectedUnweightedGraphFormat();
 
 void UsMatrixFormat(){
     vector<int>vertiecs={1,2,3,4,5};
@@ -60,6 +63,26 @@ void UsGraphAdjacencyListFormat(){
     for(auto vet:v){
         delete vet;
     }                       
+}
+void DriectedUnweightedGraphFormat(){
+    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{1,1},{2,5},{3,2},{4,1},{5,3}});
+    vector<vector<VertexPoint*>>edgesl={{v[0],v[1]},{v[0],v[3]},{v[0],v[4]},{v[1],v[2]},{v[2],v[3]},{v[2],v[4]},{v[3],v[4]}};
+    DriectedUnweightedGraph<int>graph(edgesl);
+    graph.prints();
+    graph.addEdges(v[4],v[1]);
+    cout<<endl;
+    cout<<"Ìí¼Ó±ß5-2£¬ºóÍ¼Îª£º";
+    graph.prints();
+}
+int main(){
+    //UsMatrixFormat();
+    //UsGraphAdjacencyListFormat();
+    DriectedUnweightedGraphFormat();
+
+    while(getchar()!='\n')
+    continue;
+    getchar();
+    return 0;
 }
 
 #endif
