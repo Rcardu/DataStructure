@@ -5,9 +5,9 @@
 #include"VertexPiont.h"
 template<typename T>
 class DriectedWeightedGraph{
-private:
-    //创建一个有向邻接表，使用map来存放顶点以及邻接顶点
-    unordered_map<VertexPoint*,vector<VertexPoint*>>duList;
+public:
+    //创建一个有向邻接表，使用map来存放顶点以及邻接顶点集合与其对应的权
+    unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>duList;
         /*有向图的广度优先遍历*/
     /*传入有向图的邻接表和起始顶点*/
     /*使用队列来进行广度优先遍历
@@ -31,10 +31,10 @@ private:
             que.pop();//出队
             res.push_back(vet);//记录结果
             for(auto dulists:graph.duList[vet]){
-                if(visited.count(dulists))//当前节点已被遍历过，就跳过
+                if(visited.count(dulists.first))//当前节点已被遍历过，就跳过
                 continue;
-                que.push(dulists);
-                visited.emplace(dulists);//将此节点入队并记录到邻接表中
+                que.push(dulists.first);
+                visited.emplace(dulists.first);//将此节点入队并记录到邻接表中
             }
         }
         return res;//返回结果集
@@ -50,18 +50,18 @@ private:
     void GraphDFS(DriectedWeightedGraph&graph,unordered_set<VertexPoint*>&visits,VertexPoint*start,vector<VertexPoint*>&res){
         res.push_back(start);
         visits.emplace(start);
-        for(VertexPoint*vet:graph.duList[start]){
-            if(visits.count(vet))
+        for(auto vet:graph.duList[start]){
+            if(visits.count(vet.first))
             continue;
-            GraphDFS(graph,visits,vet,res);
+            GraphDFS(graph,visits,vet.first,res);
         }
     }
 public:
     //在vector中删除指定节点
     /*要删除一个表中指定的节点*/
-    void removes(vector<VertexPoint*>&vec,VertexPoint*vet){
+    void removes(vector<pair<VertexPoint*,int>>&vec,VertexPoint*vet){
         for(int i=0;i<vec.size();i++){//遍历整个表
-            if(vec[i]==vet){//在表中找到要删除节点的索引
+            if(vec[i].first==vet){//在表中找到要删除节点的索引
                 vec.erase(vec.begin()+i);//使用索引删除这个节点
                 break;
             }
@@ -71,7 +71,7 @@ public:
     void addVertexs(VertexPoint*vet){
         if(duList.count(vet))return;//此顶点已存在
         //在邻接表中新加入一个新链表
-        duList[vet]=vector<VertexPoint*>();
+        duList[vet]=vector<pair<VertexPoint*,int>>();
     }
     /*删除顶点*/
     void removeVertexs(VertexPoint*vet){
@@ -81,15 +81,15 @@ public:
         duList.erase(vet);
         //遍历其他顶点的链表，并删除此顶点
         for(auto&dul:duList){
-            removes(dul.second,vet);
+            removes(dul.first,vet);
         }
     }
     /*添加边*/
-    void addEdges(VertexPoint*vet1,VertexPoint*vet2){
-        if(!duList.count(vet1)||!duList.count(vet2)||vet1==vet2){
+    void addEdges(VertexPoint*vet1,pair<VertexPoint*,int>vecs){
+        if(!duList.count(vet1)||!duList.count(vecs.first)||vet1==vecs.first){
             throw out_of_range("不存在此顶点或边错误");
         }
-        duList[vet1].push_back(vet2);//有向图，只给当前顶点添加边
+        duList[vet1].push_back(vecs);//有向图，只给当前顶点添加边与权
     }
     /*删除边,删除指定顶点的邻接顶点*/
     void removeEdges(VertexPoint*vet1,VertexPoint*vet2){
@@ -100,13 +100,14 @@ public:
     }
 public:
     /*构造方法*/
-    DriectedWeightedGraph(const vector<vector<VertexPoint*>>&edges){
+    DriectedWeightedGraph(const vector<pair<pair<VertexPoint*,VertexPoint*>,int>>&edges){
         //添加所有顶点和边
-        for(const vector<VertexPoint*> edge:edges){
-            addVertexs(edge[0]);//添加此顶点
-            addVertexs(edge[1]);//添加此顶点对应的邻接顶点
+        for(const auto&edge:edges){
+            addVertexs(edge.first.first);//添加此顶点
+            addVertexs(edge.first.second);//添加此顶点对应的邻接顶点
             /*如果有顶点被重复加入回直接返回*/
-            addEdges(edge[0],edge[1]);
+            pair<VertexPoint*,int>vecs(edge.first.second,edge.second);
+            addEdges(edge.first.first,vecs);
         }
     }
     /*获取顶点数量*/
@@ -114,12 +115,15 @@ public:
     /*打印邻接表*/
     void prints(){
         for(auto dul:duList){
-            cout<<"邻接表 = "<<endl;
-            const auto&key=dul.first;
-            const auto&vec=dul.second;
-            cout<<"( "<<key->key<<" , ";
-            cout<<key->val<<" ) :";
-            printSforTwo(vetsTovalsl(vec));
+            const auto&key1=dul.first;
+            const auto&val=dul.second;
+            cout<<"邻接表 = ";
+            cout<<key1->key<<"->";
+            for(auto v:val){
+                const auto&key2=v.first;
+                const auto&vals=v.second;
+                cout<<"("<<key2->key<<" , "<<vals<<")   ";
+            }
             cout<<endl;
         }
     }
