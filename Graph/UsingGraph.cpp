@@ -116,23 +116,15 @@ void DricetedUnWeightedGraphMatrixformat(){
 }
 //无向有权图
 void UnDriectedWeightedGraphFormat(){
-    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{1,1},{2,5},{3,2},{4,1},{5,3}});
-    vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={{{v[0],v[1]},2},{{v[0],v[3]},1},
-                                                    {{v[1],v[3]},3},{{v[1],v[4]},10},
-                                                    {{v[2],v[0]},4},{{v[2],v[5]},5},
-                                                    {{v[3],v[2]},2}};
+    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7}});
+    vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={{{v[0],v[1]},2},{{v[0],v[2]},4},{{v[0],v[3]},1},
+                                                    {{v[1],v[3]},3},{{v[1],v[4]},1},
+                                                    {{v[2],v[3]},2},{{v[2],v[5]},5},
+                                                    {{v[3],v[5]},8},{{v[3],v[6]},4},{{v[3],v[4]},7},
+                                                    {{v[4],v[6]},6},{{v[5],v[6]},1}};
     UnDriectedWeightedGraph<int>graph(edgesl);
     graph.print();
-    for(auto vec:graph.UnDriectedWeightedGraphBFSIn(graph,v[0])){
-        cout<<"("<<vec[0]<<" , "<<vec[1]<<")";
-        cout<<" ---> ";
-    }
-    cout<<endl;
-    cout<<"深度优先遍历："<<endl;
-    for(auto vec:graph.UnDriectedWeightedGraphDFSIn(graph,v[0])){
-        cout<<"("<<vec[0]<<" , "<<vec[1]<<")";
-        cout<<" ---> ";
-    }
+    graph.PrimMinimumTreeIn(graph,v[0]);
 }
 //有向有权图
 void DriectedweightedGraphFormat(){
@@ -186,8 +178,8 @@ int main(){
     //UnDriectedUnWeightedGraphMatrixFormat();
     //DriectedUnWeightedGraphFormat();
     //DricetedUnWeightedGraphMatrixformat();
-    //UnDriectedWeightedGraphFormat();
-    DriectedweightedGraphFormat();
+    UnDriectedWeightedGraphFormat();
+    //DriectedweightedGraphFormat();
     //DriectedWeightedGraphMatForamt();
 
     while(getchar()!='\n')
