@@ -6,12 +6,10 @@
             "command": "D:\\software\\VsCode\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
-               // "${workspaceFolder}\\*.cpp", //多文件一起编译
                 "-g",
-                "${file}",//指定当前文件编译
+                "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                //"-fexec-charset=GBK",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -24,6 +22,26 @@
                 "isDefault": true
             },
             "detail": "g++任务调试器"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: cpp.exe 生成活动文件",
+            "command": "D:\\software\\VsCode\\mingw64\\bin\\cpp.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "detail": "调试器生成的任务。"
         }
     ],
     "version": "2.0.0"
