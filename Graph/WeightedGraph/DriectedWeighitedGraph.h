@@ -21,7 +21,7 @@ public:
         遍历结果
         1 2 4 5 3 
          */
-    vector<VertexPoint*>GraphBFS(DriectedWeightedGraph&graph,VertexPoint*start){
+    vector<VertexPoint*>GraphBFS(unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>&graph,VertexPoint*start){
         queue<VertexPoint*>que;//遍历顺序
         vector<VertexPoint*>res;//遍历结果
         que.push(start);//将起始顶点入队
@@ -30,7 +30,7 @@ public:
             VertexPoint*vet=que.front();//选取队列中的第一个节点
             que.pop();//出队
             res.push_back(vet);//记录结果
-            for(auto dulists:graph.duList[vet]){
+            for(auto dulists:graph[vet]){
                 if(visited.count(dulists.first))//当前节点已被遍历过，就跳过
                 continue;
                 que.push(dulists.first);
@@ -129,7 +129,8 @@ public:
     }
     /*广度优先遍历*/
     vector<vector<int>>GraphBFSIn(DriectedWeightedGraph&graph,VertexPoint*start){
-        return vetsTovalsl(GraphBFS(graph,start));
+        
+        return vetsTovalsl(GraphBFS(graph.duList,start));
     }
     /*深度优先遍历*/
     vector<vector<int>>GraphDFSIn(DriectedWeightedGraph&graph,VertexPoint*start){
