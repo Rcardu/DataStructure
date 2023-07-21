@@ -116,7 +116,6 @@ private:
             return a.second.second>b.second.second;
         }
     };
-public:
     /*最小生成树*/
     /*种一棵树，让树从一个节点增长到n个节点*/
     /*初始的时候数只有一个节点，每轮循环找出一个节点和一条边，将其接在树上*/
@@ -169,6 +168,51 @@ public:
         }
         return Edge;
     }
+    /*Kruskal算法寻找最小生成树
+    传入图，将图的所有边压入优先队列
+    取出优先级最低的那条边，判断两个结点是否属于同一森林
+    若在同一森林就直接删除这条边，否则将这条边的两个结点合并为一个森林中*/
+    vector<pair<VertexPoint*,VertexPoint*>>KruskalMinimumTree(UnDriectedWeightedGraph&graph,vector<VertexPoint*>vertex){
+        vector<pair<VertexPoint*,VertexPoint*>>res;//结果集
+        unordered_map<VertexPoint*,int>flag;//使用标记，初始时每个点的标记都不一样
+        int i=1;
+        for(auto&ver:vertex){
+            flag[ver]=i;
+            i++;
+        }
+        //优先队列，存入所有的边
+        priority_queue<pair<VertexPoint*,pair<VertexPoint*,int>>,vector<pair<VertexPoint*,pair<VertexPoint*,int>>>,cmp1>que;
+        unordered_set<VertexPoint*>set;
+        for(i=0;i<vertex.size();i++){
+            pair<VertexPoint*,pair<VertexPoint*,int>>temp;
+            temp.first=vertex[i];
+            for(auto&Grp:graph.adjList[vertex[i]]){
+                if(set.count(Grp.first))
+                continue;
+                temp.second.first=Grp.first;
+                temp.second.second=Grp.second;
+                que.push(temp);
+            }
+            set.emplace(temp.first);
+        }
+        while(!que.empty()){
+            pair<VertexPoint*,pair<VertexPoint*,int>>temp=que.top();
+            que.pop();
+            if(flag[temp.first]==flag[temp.second.first])
+            continue;
+            pair<VertexPoint*,VertexPoint*>Re(temp.first,temp.second.first);
+            res.push_back(Re);
+            int elem=flag[temp.second.first];
+            for(auto&ver:vertex){
+                if(flag[ver]==elem){
+                    flag[ver]=flag[temp.first];
+                }
+            }
+            if(res.size()==graph.adjList.size()-1)
+            break;
+        }
+        return res;
+    }
 public:
     /*无向有权图的广度优先遍历*/
     vector<vector<int>>UnDriectedWeightedGraphBFSIn(UnDriectedWeightedGraph&graph,VertexPoint*start){
@@ -181,11 +225,18 @@ public:
         UnDriectedWeightedGraphDFS(graph,visited,res,start);
         return vetsTovalsl(res);
     }
+    //Prim算法寻找最小生成树
     void PrimMinimumTreeIn(UnDriectedWeightedGraph&graph,VertexPoint*start){
         for(auto&res:PrimMinimumTree(graph,start)){
             cout<<"("<<res.first->key<<" , "<<res.second->key<<")"<<endl;
         }
         cout<<endl;
+    }
+
+    void KruskalMinimumTreeIn(UnDriectedWeightedGraph&graph,vector<VertexPoint*>vertex){
+        for(auto&vet:KruskalMinimumTree(graph,vertex)){
+            cout<<" "<<vet.first->key<<"   "<<vet.second->key<<endl;
+        }
     }
 };
 
