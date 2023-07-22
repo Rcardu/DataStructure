@@ -12,6 +12,7 @@
 #include "WeightedGraph/DriectedWeighitedGraph.h"
 #include "WeightedGraph/DriectedWeightedGraphPath.h"
 #include "WeightedGraph/NetWorkFlowProbl.h"
+#include "WeightedGraph/NetWorkFlowProbl.h"
 using namespace std;
 void UnDriectedUnWeightGraphForamt();//无向无权图邻接表
 void UnDriectedUnWeightedGraphMatrixFormat();//无向无权图的邻接矩阵
@@ -136,25 +137,34 @@ void DriectedweightedGraphFormat(){
                                                     {{v[2],v[0]},4},{{v[2],v[5]},5},
                                                     {{v[3],v[2]},2},{{v[3],v[4]},2},{{v[3],v[5]},8},{{v[3],v[6]},4},
                                                     {{v[4],v[6]},1},
-                                                    {{v[6],v[5]},1}};*/
-    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{0,1},{1,2},{2,3},{3,4},{4,5},{5,6},{6,7}});
+                                                    {{v[6],v[5]},1}};
+                                                    */
+    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{0,0},{1,1},{2,2},{3,3},{4,4},{5,5}});
+    /*
     vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={
                                                     {{v[0],v[1]},4},{{v[0],v[2]},2},
                                                     {{v[1],v[2]},1},{{v[1],v[3]},2},{{v[1],v[4]},4},
                                                     {{v[2],v[4]},2},
                                                     {{v[3],v[5]},3},
-                                                    {{v[4],v[5]},3}};                                     
+                                                    {{v[4],v[5]},3}};       
+                                                    */                
+    vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={
+        {{v[0],v[1]},10},{{v[0],v[2]},10},
+        {{v[1],v[2]},2},{{v[1],v[3]},4},{{v[1],v[4]},8},
+        {{v[2],v[4]},9},
+        {{v[3],v[5]},10},
+        {{v[4],v[3]},6},{{v[4],v[5]},10}
+    };                                             
     DriectedWeightedGraph<int>graph(edgesl);
     graph.prints();
-    for(auto vec:graph.GraphBFSIn(graph,v[0])){
-        cout<<"("<<vec[0]<<" , "<<vec[1]<<")  ";
-    }
     cout<<endl;
     NetWorkFlowProbl Net;
     unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>CopysList=graph.duList;
-    Net.NetWorkPro(graph,CopysList,v[0],v[5],v);
+    Net.FLowAsDinic(graph,CopysList,v[0],v[5],v);
     Net.print();
     Net.NetWorkValue(v[0]);
+
+    
 }
 //有向有权图的邻接矩阵
 void DriectedWeightedGraphMatForamt(){
