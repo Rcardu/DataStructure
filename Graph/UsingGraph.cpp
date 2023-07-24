@@ -12,7 +12,8 @@
 #include "WeightedGraph/DriectedWeighitedGraph.h"
 #include "WeightedGraph/DriectedWeightedGraphPath.h"
 #include "WeightedGraph/NetWorkFlowProbl.h"
-#include "WeightedGraph/NetWorkFlowProbl.h"
+#include "WeightedGraph/BipartiteGraph.h"
+#include "WeightedGraph/HungarianAlgorithm.h"
 using namespace std;
 void UnDriectedUnWeightGraphForamt();//无向无权图邻接表
 void UnDriectedUnWeightedGraphMatrixFormat();//无向无权图的邻接矩阵
@@ -22,6 +23,7 @@ void DricetedUnWeightedGraphMatrixformat();//有向无权图的邻接矩阵
 void UnDriectedWeightedGraphFormat();//无向有权图的邻接表
 void DriectedweightedGraphFormat();//有向有权图的邻接表
 void DriectedWeightedGraphMatForamt();//有向有权图的邻接矩阵
+void HungarianAlgorithmFormat();//匈牙利算法的最大匹配
 
 //无向无权图的操作
 void UnDriectedUnWeightGraphForamt(){
@@ -118,15 +120,32 @@ void DricetedUnWeightedGraphMatrixformat(){
 }
 //无向有权图
 void UnDriectedWeightedGraphFormat(){
-    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7}});
-    vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={{{v[0],v[1]},2},{{v[0],v[2]},4},{{v[0],v[3]},1},
-                                                    {{v[1],v[3]},3},{{v[1],v[4]},10},
-                                                    {{v[2],v[3]},2},{{v[2],v[5]},5},
-                                                    {{v[3],v[5]},8},{{v[3],v[6]},4},{{v[3],v[4]},7},
-                                                    {{v[4],v[6]},6},{{v[5],v[6]},1}};
+    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7},{8,8}});
+    vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={{{v[0],v[1]},2},{{v[0],v[3]},4},{{v[0],v[4]},1},
+                                                    {{v[1],v[5]},3},{{v[1],v[2]},10},
+                                                    {{v[2],v[6]},2},{{v[2],v[3]},5},
+                                                    {{v[3],v[7]},8},
+                                                    {{v[4],v[5]},6},{{v[4],v[7]},1},
+                                                    {{v[5],v[6]},1},{{v[6],v[7]},1}};
     UnDriectedWeightedGraph<int>graph(edgesl);
     graph.print();
-    graph.KruskalMinimumTreeIn(graph,v);
+    cout<<endl;
+    unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>CopysList=graph.adjList;
+    BipartiteGraph Ks;
+    if(Ks.BipartitedGraphCast(CopysList,v)){
+        cout<<"Yes";
+    }else cout<<"No ";
+    vector<VertexPoint*>S;
+    vector<VertexPoint*>T;
+    Ks.InputTandS(S,T,v);
+    cout<<"S集合为： ";
+    for(VertexPoint*s:S){
+        cout<<s->key<<" ";
+    }
+    cout<<endl<<"T集合为：";
+    for(VertexPoint*t:T){
+        cout<<t->key<<" ";
+    }
 }
 //有向有权图
 void DriectedweightedGraphFormat(){
@@ -139,7 +158,7 @@ void DriectedweightedGraphFormat(){
                                                     {{v[4],v[6]},1},
                                                     {{v[6],v[5]},1}};
                                                     */
-    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{0,0},{1,1},{2,2},{3,3},{4,4},{5,5}});
+    vector<VertexPoint*>v=valsToVetsl(vector<vector<int>>{{0,0},{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7},{8,8},{9,9},{10,10},{11,11}});
     /*
     vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={
                                                     {{v[0],v[1]},4},{{v[0],v[2]},2},
@@ -149,18 +168,18 @@ void DriectedweightedGraphFormat(){
                                                     {{v[4],v[5]},3}};       
                                                     */                
     vector<pair<pair<VertexPoint*,VertexPoint*>,int>>edgesl={
-        {{v[0],v[1]},10},{{v[0],v[2]},10},
-        {{v[1],v[2]},2},{{v[1],v[3]},4},{{v[1],v[4]},8},
-        {{v[2],v[4]},9},
-        {{v[3],v[5]},10},
-        {{v[4],v[3]},6},{{v[4],v[5]},10}
+        {{v[0],v[1]},1},{{v[0],v[2]},1},{{v[0],v[3]},1},{{v[0],v[4]},1},{{v[0],v[5]},1},
+        {{v[1],v[7]},1},{{v[1],v[8]},1},{{v[2],v[7]},1},{{v[2],v[8]},1},{{v[2],v[9]},1},
+        {{v[3],v[6]},1},{{v[3],v[8]},1},{{v[3],v[10]},1},{{v[4],v[8]},1},
+        {{v[5],v[8]},1},{{v[5],v[9]},1},{{v[5],v[10]},1},
+        {{v[6],v[11]},1},{{v[7],v[11]},1},{{v[8],v[11]},1},{{v[9],v[11]},1},{{v[10],v[11]},1}
     };                                             
     DriectedWeightedGraph<int>graph(edgesl);
     graph.prints();
     cout<<endl;
     NetWorkFlowProbl Net;
     unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>CopysList=graph.duList;
-    Net.FLowAsDinic(graph,CopysList,v[0],v[5],v);
+    Net.FLowAsDinic(graph,CopysList,v[0],v[11],v);
     Net.print();
     Net.NetWorkValue(v[0]);
 
@@ -189,14 +208,21 @@ void DriectedWeightedGraphMatForamt(){
     }
     cout<<endl;
 }
+void HungarianAlgorithmFormat(){
+    vector<vector<int>>Martex={{8,25,50},{50,35,75},{22,48,150}};
+    //{{0,-3,-5,0},{0,-2,-1,-4},{-3,-5,0,0},{0,0,-2,-5}};
+    HunGarianAlgorithm Mas;
+    Mas.HunGarian(Martex);
+};
 int main(){
     //UnDriectedUnWeightGraphForamt();
     //UnDriectedUnWeightedGraphMatrixFormat();
     //DriectedUnWeightedGraphFormat();
     //DricetedUnWeightedGraphMatrixformat();
     //UnDriectedWeightedGraphFormat();
-    DriectedweightedGraphFormat();
+    //DriectedweightedGraphFormat();
     //DriectedWeightedGraphMatForamt();
+    HungarianAlgorithmFormat();
 
     while(getchar()!='\n')
     continue;
