@@ -9,6 +9,7 @@ void PrintVectorVertex(vector<VertexPoint*>ver);
 void GraphDFS(unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>&CopysList,unordered_set<VertexPoint*>&visits,VertexPoint*start,VertexPoint*end,vector<VertexPoint*>&res);
 class NetWorkFlowProbl{
 private:
+    /*最大流图，顶点，邻接点，初始流，最大流*/
     unordered_map<VertexPoint*,vector<pair<VertexPoint*,pair<int,int>>>>NetFlow;
 public:
 /*网络流结果梳理*/
@@ -152,12 +153,12 @@ private:
         CreatLevelGraph(CopysList,LevelGraph,start,end);
         cout<<"创建Level图："<<endl;
         PrintLevelGraph(LevelGraph,vertex);
+        //判断Level图是否存在路径
+        if(!LevelBOOls(LevelGraph,start,end))return;
         //创建阻塞流图
         unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>FLowGraph=LevelGraph;
         //查找阻塞图
-        bool flag=FindTheFLow(FLowGraph,start,end);
-        //当前图无阻塞流图就返回终止
-        if(!flag)return; 
+        FindTheFLow(FLowGraph,start,end);
         //有就生成阻塞流图
         SetLevelGraph(LevelGraph,FLowGraph,vertex);
         cout<<"形成的阻塞流图: "<<endl;
@@ -207,21 +208,21 @@ private:
         }
     }
     /*寻找阻塞流*/
-    bool FindTheFLow(unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>&FLowGraph,VertexPoint*start,VertexPoint*end){
+    void FindTheFLow(unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>&FLowGraph,VertexPoint*start,VertexPoint*end){
         /*在LevelGraph中寻找阻塞流*/
         unordered_set<VertexPoint*>set;
         vector<VertexPoint*>PathAs;
         GraphDFS(FLowGraph,set,start,end,PathAs);
-        if(PathAs.size()==1)return false;
+        if(PathAs.size()==1)return;
         set.clear();
         /*生成LevelGraph的阻塞流*/
         /*找到最小权值*/
         int MinPath=GetMinPath(FLowGraph,PathAs);
-        if(MinPath==0)return false;
+        if(MinPath==0)return;
         /*生成基于LevelGraph的阻塞流图*/
         SetLevelPath(FLowGraph,PathAs,MinPath);
         FindTheFLow(FLowGraph,start,end);
-        return true;
+        return;
     }
     /*修改流路径*/
     void SetLevelPath(unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>&FLowGraph,vector<VertexPoint*>PathAs,int MinPath){
@@ -288,6 +289,15 @@ private:
             cout<<endl;
         }
         cout<<endl;
+    }
+    /*判断此Level图是否有路*/
+    bool LevelBOOls(unordered_map<VertexPoint*,vector<pair<VertexPoint*,int>>>&LevelGraph,VertexPoint*start,VertexPoint*end){
+        unordered_set<VertexPoint*>set;
+        vector<VertexPoint*>res;
+        GraphDFS(LevelGraph,set,start,end,res);
+        if(res.back()!=end)return false;
+        return true;
+
     }
 };
 /*寻找图中的简单路径,传入图、起始终止结点、结果集、哈希表（保证简单路径中不能有回路）基于Edmonds-Karp算法寻找简单路径*/
